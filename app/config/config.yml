@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: "@CommonBundle/Resources/config/services.yml" }
+    - { resource: "@AdminBundle/Resources/config/services.yml" }
+    - { resource: "@SiteBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -35,9 +38,12 @@ framework:
 
 # Twig Configuration
 twig:
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
-
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    exception_controller:  SiteBundle\Controller\ExceptionController:showExceptionAction
+    paths:
+        '%kernel.root_dir%/../src/SiteBundle/Resources/views': Site
+        '%kernel.root_dir%/../src/AdminBundle/Resources/views': Admin
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -48,12 +54,6 @@ doctrine:
         user: '%database_user%'
         password: '%database_password%'
         charset: UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #path: '%database_path%'
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
